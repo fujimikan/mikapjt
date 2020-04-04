@@ -65,4 +65,18 @@ class MessageController extends AbstractController
     /**
      * @Route("/message/page/{page}", name="message/page")
      */
+    public function page($page=1)
+    {
+        $limit = 3;
+        $repository = $this->getDoctrine()
+            ->getRepository(Message::class);
+        $paginator = $repository->getPage($page,$limit);
+        $maxPages = ceil($paginator->count() / $limit);
+        return $this->render('message/page.html.twig',[
+            'title' => 'Message',
+            'data' => $paginator->getIterator(),
+            'maxPages' => $maxPages,
+            'thisPage'=>$page,
+        ]);
+    }
 }
