@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block page %}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <style>
+            body{
+                padding:0px 30px;
+                color:#666;
+            }
+            h1{
+                font-size:72px;
+                font-weight: bold;
+                text-align: right;
+                letter-spacing: -8px;
+                color: #f0f0f0;
+                margin: -30px -25px;
+            }
+            div.body{
+                margin: -70px 10px 10px 10px;
+                font-size: 18px;
+                color: #777;
+            }
+            div#footer{
+                position: fixed;
+                bottom: 25px;
+                left: 10px;
+                font-size: 10px;
+                color: #aaa;
+            }
+            th {
+                background: #009;
+                color: white;
+                padding: 5px 15px;
+                font-size: 14px;
+            }
+            td{
+                background: #eee;
+                padding: 5px 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{% block title %}{% endblock %}</h1>
+        <div class="body">
+            {% block body %}{% endblock %}
+        </div>
+        <div id="footer">
+            <p>copyright 2018 SYODA-Tuyano.</p>
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<style>
+    .A {background: #ddd;}
+    .B {background: #dff;}
+</style>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Mail</th>
+    </tr>
+    {% set flg = true %}
+    {% for item in data %}
+        <tr class="{% if flg %}A{% else %}B{% endif %}">
+            <td>{{ item.name }}</td>
+            <td>{{ item.age }}</td>
+            <td>{{ item.mail }}</td>
+        </tr>
+        {% if flg %}
+            {% set flg = false %}
+        {% else %}
+            {% set flg = true %}
+        {% endif %}
+    {% endfor %}
+</table>

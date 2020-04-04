@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block page %}{{ title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h2>Person Table</h2>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Mail</th>
+            <th>Age</th>
+            <th>Message</th>
+        </tr>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.mail }}</td>
+                <td>{{ item.age }}</td>
+                <td>
+                    <ul>
+                        {% for msg in item.messages %}
+                            <li>{{ msg.content }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

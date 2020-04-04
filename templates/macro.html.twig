@@ -1,0 +1,10 @@
+{% macro input(type, name, value) %}
+<tr>
+    <th>{{ name }}</th>
+    <td><input type="{{ type }}" name="{{ name }}" value="{{ value }}" /></td>
+</tr>
+{% endmacro %}
+{% macro submit(value) %}
+    <th></th>
+    <td><input type="submit" value="{{ value }}" /></td>
+{% endmacro %}

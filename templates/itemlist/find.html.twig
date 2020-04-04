@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block page %}{{ title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h2>Find Entity</h2>
+    <hr>
+    {% if data != null %}
+        <table>
+            <tr><th>Id</th><td>{{ data.id }}</td></tr>
+            <tr><th>Name</th><td>{{ data.name }}</td></tr>
+            <tr><th>Mail</th><td>{{ data.mail }}</td></tr>
+            <tr><th>Age</th><td>{{ data.age }}</td></tr>
+        </table>
+    {% endif %}
+{% endblock %}
