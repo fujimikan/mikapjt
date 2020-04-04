@@ -1,0 +1,71 @@
+<style>
+    a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+    .pagination {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .page-link {
+        position: relative;
+        display: block;
+        padding: 7px 10px;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #00f;
+        background-color: #fff;
+        border: 1px solid #aaf;
+    }
+
+    .page-link:hover {
+        z-index: 2;
+        color: #0056b3;
+        text-decoration: none;
+        background-color: #e9ecef;
+        border-color: #aaf;
+    }
+
+    .page-item:first-child .page-link {
+        margin-left: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .page-item:last-child .page-link {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+</style>
+
+{% if maxPages > 1 %}
+<ul class="pagination">
+    <li class="page-item">
+        <a class="page-link" href="{{ path('message/page', {page: 1}) }}">|<<</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="{{ path('message/page', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}"><<</a>
+    </li>
+
+    {% for i in (thisPage - 2)..(thisPage + 2) %}
+    {% if i > 0 %}
+    {% if i <= maxPages %}
+    <li class="page-item">
+        <a class="page-link" href="{{ path('message/page', {page: i}) }}">{{ i }}</a>
+    </li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+
+    <li class="page-item">
+        <a class="page-link" href="{{ path('message/page', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">>></a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="{{ path('message/page', {page: maxPages}) }}">>>|</a>
+    </li>
+</ul>
+{% endif %}
