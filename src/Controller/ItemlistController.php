@@ -15,8 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
-
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class ItemlistController extends AbstractController
 {
     /**
@@ -24,12 +25,22 @@ class ItemlistController extends AbstractController
      */
     public function index(Request $request)
     {
-        $repository = $this->getDoctrine()
-            ->getRepository(Person::class);
-        $data=$repository->findall();
+        $fileSystem = new Filesystem();
+        $temp = __DIR__ . '/temp';
+
+        try {
+            if (!$fileSystem->exists($temp)) {
+                $fileSystem->mkdir($temp);
+            }
+            $fileSystem->appendToFile($temp . '/temp.txt', "WRITE TEXT!!!    ");
+            $fileSystem->appendToFile($temp . '/temp.txt', date("Y-m-d H:i:s"));
+            $fileSystem->appendToFile($temp . '/temp.txt', "\n");
+        } catch (IOExceptionInterface $e) {
+            echo "ERROR " . $e->getPath();
+        }
         return $this->render('itemlist/index.html.twig',[
-            'title'=>'MikaHello',
-            'data'=>$data,
+            'title'=>'Hello',
+            'message'=>'get file/folder',
         ]);
     }
 
