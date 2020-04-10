@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Form\HelloType;
 use App\Form\PersonType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,31 +19,46 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 class ItemlistController extends AbstractController
 {
     /**
      * @Route("/hello", name="hello")
      */
-    public function index(Request $request)
+    public function index(Request $request, SessionInterface $session)
     {
-        $fileSystem = new Filesystem();
-        $temp = __DIR__ . '/temp';
+        $formobj = new HelloForm();
+        $form = $this->createForm(HelloType::class, $formobj);
+        $form->handleRequest($request);
 
-        try {
-            if (!$fileSystem->exists($temp)) {
-                $fileSystem->mkdir($temp);
-            }
-            $fileSystem->appendToFile($temp . '/temp.txt', "WRITE TEXT!!!    ");
-            $fileSystem->appendToFile($temp . '/temp.txt', date("Y-m-d H:i:s"));
-            $fileSystem->appendToFile($temp . '/temp.txt', "\n");
-        } catch (IOExceptionInterface $e) {
-            echo "ERROR " . $e->getPath();
+
+        if ($request->getMethod() == 'POST'){
+            $formobj = $form->getData();
+            $session->getFlashBag()->add('info.mail', $formobj);
+            $msg = 'Hello, ' . $formobj->getName() . '!!';
+        } else {
+            $msg = 'Send Form';
         }
-        return $this->render('itemlist/index.html.twig',[
-            'title'=>'Hello',
-            'message'=>'get file/folder',
+
+        return $this->render('itemlist/index.html.twig', [
+            'title' => 'Hello',
+            'message' => $msg,
+            'bag' => $session->getFlashBag(),
+            'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/clear", name="clear")
+     */
+    public function clear(Request $request, SessionInterface $session)
+    {
+        $session->getFlashBag()->clear();
+        return $this->redirect('/hello');
+    }
+
 
     /**
      * @Route("/find/{id}", name="find")
@@ -146,5 +162,36 @@ class FindForm
     public function setFind($find)
     {
         $this->find = $find;
+    }
+}
+
+class HelloForm
+{
+    private $name;
+    private $mail;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this-> name = $name;
+    }
+
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+    }
+
+    public function __toString()
+    {
+        return '*** ' . $this->name . '[' . $this->mail . '] ***';
     }
 }
