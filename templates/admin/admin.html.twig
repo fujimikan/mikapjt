@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+{% block page %}{{title}}{% endblock %}
+{% block title %}{{title}}{% endblock %}
+
+
+{% block body %}
+    <h2>{{message}}</h2>
+    <p>user: {{ user.username }}</p>
+    <p>mail: {{ user.email }}</p>
+{% endblock %}

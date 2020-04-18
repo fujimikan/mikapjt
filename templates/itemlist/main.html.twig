@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block page %}{{ title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h2>Twig カスタムタグ</h2>
+    <p>{% helo name="Taro" age="36" mail="taro@yamada" %}</p>
+    <p>{% helo name="Hanako" mail="hanako@flower" age="29" %}</p>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block page %}Login{% endblock %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <p>login</p>
+    <p>{{ user }}</p>
+    {% if error %}
+        <p>{{ error.messageKey }}</p>
+    {% endif %}
+
+    <form action="{{ path('login') }}" method="post">
+        <table>
+            <tr>
+                <th><label for="username">Username:</label></th>
+                <td><input type="text" id="username" name="_username" /></td>
+            </tr>
+            <tr>
+                <th><label for="password">Password:</label></th>
+                <td><input type="password" id="password" name="_password" /></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><button type="submit">login</button></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

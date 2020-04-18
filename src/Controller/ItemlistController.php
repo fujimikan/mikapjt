@@ -21,32 +21,33 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\Service\MyService;
 
 class ItemlistController extends AbstractController
 {
     /**
-     * @Route("/hello", name="hello")
+     * @Route("/", name="main")
      */
-    public function index(Request $request, SessionInterface $session)
+    public function main(Request $request, int $int=1, MyService $service)
     {
-        $formobj = new HelloForm();
-        $form = $this->createForm(HelloType::class, $formobj);
-        $form->handleRequest($request);
+        return $this->render('itemlist/main.html.twig', [
+            'title'=>'Hello',
+            'number'=>1234500,
+        ]);
+    }
 
 
-        if ($request->getMethod() == 'POST'){
-            $formobj = $form->getData();
-            $session->getFlashBag()->add('info.mail', $formobj);
-            $msg = 'Hello, ' . $formobj->getName() . '!!';
-        } else {
-            $msg = 'Send Form';
-        }
-
+    /**
+     * @Route("/hello/{id}", name="hello")
+     */
+    public function index(Request $request, int $id=1, MyService $service)
+    {
+        $person = $service->getPerson($id);
+        $msg = $person == null ? 'no person.' : 'name:' . $person;
         return $this->render('itemlist/index.html.twig', [
             'title' => 'Hello',
             'message' => $msg,
-            'bag' => $session->getFlashBag(),
-            'form' => $form->createView(),
         ]);
     }
 
