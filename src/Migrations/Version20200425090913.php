@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200408133232 extends AbstractMigration
+final class Version20200425090913 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,9 @@ final class Version20200408133232 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
-        $this->addSql('CREATE TABLE mika_tb (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, mika_cd INTEGER DEFAULT NULL, mika_name VARCHAR(255) DEFAULT NULL)');
+        $this->addSql('CREATE TABLE trn_expenses (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, account_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reporting_date DATETIME NOT NULL, price NUMERIC(12, 2) NOT NULL, qty NUMERIC(10, 2) NOT NULL, registrate_date DATETIME DEFAULT NULL, settled_date DATETIME DEFAULT NULL, note VARCHAR(255) DEFAULT NULL)');
+        $this->addSql('CREATE INDEX IDX_D9A601809B6B5FBA ON trn_expenses (account_id)');
+        $this->addSql('CREATE INDEX IDX_D9A60180A76ED395 ON trn_expenses (user_id)');
         $this->addSql('DROP INDEX IDX_B6BD307F217BBB47');
         $this->addSql('CREATE TEMPORARY TABLE __temp__message AS SELECT id, person_id, content, posted FROM message');
         $this->addSql('DROP TABLE message');
@@ -37,7 +39,7 @@ final class Version20200408133232 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
-        $this->addSql('DROP TABLE mika_tb');
+        $this->addSql('DROP TABLE trn_expenses');
         $this->addSql('DROP INDEX IDX_B6BD307F217BBB47');
         $this->addSql('CREATE TEMPORARY TABLE __temp__message AS SELECT id, person_id, content, posted FROM message');
         $this->addSql('DROP TABLE message');
