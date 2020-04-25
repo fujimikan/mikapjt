@@ -33,16 +33,6 @@ class MstAccount
      */
     private $account_name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TrnExpenses", mappedBy="account")
-     */
-    private $trnExpenses;
-
-    public function __construct()
-    {
-        $this->trnExpenses = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -84,39 +74,4 @@ class MstAccount
         return $this;
     }
 
-    /**
-     * @return Collection|TrnExpenses[]
-     */
-    public function getTrnExpenses(): Collection
-    {
-        return $this->trnExpenses;
-    }
-
-    public function addTrnExpense(TrnExpenses $trnExpense): self
-    {
-        if (!$this->trnExpenses->contains($trnExpense)) {
-            $this->trnExpenses[] = $trnExpense;
-            $trnExpense->setAccount($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrnExpense(TrnExpenses $trnExpense): self
-    {
-        if ($this->trnExpenses->contains($trnExpense)) {
-            $this->trnExpenses->removeElement($trnExpense);
-            // set the owning side to null (unless already changed)
-            if ($trnExpense->getAccount() === $this) {
-                $trnExpense->setAccount(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getAccountName();
-    }
 }

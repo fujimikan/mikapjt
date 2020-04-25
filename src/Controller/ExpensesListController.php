@@ -1,8 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\MstAccount;
-use App\Entity\MstUsers;
 use App\Entity\TrnExpenses;
 use App\Form\ExpensesType;
 use App\Repository\TrnExpensesRepository;

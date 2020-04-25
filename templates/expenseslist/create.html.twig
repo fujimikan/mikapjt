@@ -1,11 +1,41 @@
 {% extends'base.html.twig' %}
 
 {% block page %}{{ title }}{% endblock %}
-{% block title %}{{ title }}{% endblock %}
-
+{% block title %}
+    {{ title }}
+<script>
+    $(document).ready(function() {
+        // you may need to change this code if you are not using Bootstrap Datepicker
+        $('.js-datepicker').datepicker({
+            format: 'yyyy/MM/dd'
+        });
+    });
+</script>
+{% endblock %}
 {% block body %}
     <h2></h2>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <table>
+        <tr>
+            <th>担当者</th><td>{{ form_widget(form.user_id) }}</td>
+        </tr>
+        <tr>
+            <th>申請日</th><td>{{ form_widget(form.reporting_date) }}</td>
+        </tr>
+        <tr>
+            <th>申請内容</th><td>{{ form_widget(form.account_name) }}</td>
+        </tr>
+        <tr>
+            <th>価格</th><td>{{ form_widget(form.price) }}</td>
+        </tr>
+        <tr>
+            <th>数量</th><td>{{ form_widget(form.qty) }}</td>
+        </tr>
+        <tr>
+            <th>備考</th><td>{{ form_widget(form.note) }}</td>
+        </tr>
+    </table>
+
+
     {{ form_end(form) }}
 {% endblock %}

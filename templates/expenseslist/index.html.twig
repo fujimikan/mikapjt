@@ -20,9 +20,9 @@
         </tr>
         {% for item in data %}
             <tr>
-                <td>{{ item.user.username }}</td>
+                <td>{{ item.userid }}</td>
                 <td>{{ item.reportingdate.format('Y/m/d') }}</td>
-                <td>{{ item.account.accountname }}</td>
+                <td>{{ item.accountname }}</td>
                 <td class="int">{{ item.price|number_format }}</td>
                 <td class="int">{{ item.qty|number_format }}</td>
                 <td class="int">{{ (item.price * item.qty)|number_format }}</td>

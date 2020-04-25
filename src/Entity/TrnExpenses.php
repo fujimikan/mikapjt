@@ -17,7 +17,12 @@ class TrnExpenses
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $account_name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $user_id;
 
@@ -25,11 +30,6 @@ class TrnExpenses
      * @ORM\Column(type="datetime")
      */
     private $reporting_date;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $account_id;
 
     /**
      * @ORM\Column(type="decimal", precision=12, scale=2)
@@ -56,33 +56,9 @@ class TrnExpenses
      */
     private $note;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\MstAccount", inversedBy="trnExpenses")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $account;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\MstUsers", inversedBy="trnExpenses")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
     }
 
     public function getReportingDate(): ?\DateTimeInterface
@@ -93,18 +69,6 @@ class TrnExpenses
     public function setReportingDate(\DateTimeInterface $reporting_date): self
     {
         $this->reporting_date = $reporting_date;
-
-        return $this;
-    }
-
-    public function getAccountId(): ?int
-    {
-        return $this->account_id;
-    }
-
-    public function setAccountId(int $account_id): self
-    {
-        $this->account_id = $account_id;
 
         return $this;
     }
@@ -169,27 +133,28 @@ class TrnExpenses
         return $this;
     }
 
-    public function getAccount(): ?MstAccount
+    public function getAccountName(): ?string
     {
-        return $this->account;
+        return $this->account_name;
     }
 
-    public function setAccount(?MstAccount $account): self
+    public function setAccountName(string $account_name): self
     {
-        $this->account = $account;
+        $this->account_name = $account_name;
 
         return $this;
     }
 
-    public function getUser(): ?MstUsers
+    public function getUserId(): ?string
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUser(?MstUsers $user): self
+    public function setUserId(string $user_id): self
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
 
         return $this;
     }
+
 }
