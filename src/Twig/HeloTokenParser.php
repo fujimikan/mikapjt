@@ -2,9 +2,12 @@
 namespace App\Twig;
 
 
-class HeloTokenParser extends \Twig_TokenParser
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
+
+class HeloTokenParser extends AbstractTokenParser
 {
-    public function parse(\Twig_Token $token)
+    public function parse(Token $token)
     {
         $names = [];
         $values = [];

@@ -2,7 +2,10 @@
 namespace App\Twig;
 
 
-class HeloNode extends \Twig_Node
+use Twig\Compiler;
+use Twig\Node\Node;
+
+class HeloNode extends Node
 {
     public function __construct($values, $names, $line, $tag = null)
     {
@@ -10,7 +13,7 @@ class HeloNode extends \Twig_Node
     }
 
 
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $name = 'noname';
         $age = 0;

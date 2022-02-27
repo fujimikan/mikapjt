@@ -28,7 +28,7 @@ class ItemlistController extends AbstractController
     /**
      * @Route("/", name="main")
      */
-    public function main(Request $request, int $int=1, MyService $service)
+    public function main(Request $request, MyService $service, int $int=1)
     {
         return $this->render('itemlist/main.html.twig', [
             'title'=>'Hello',

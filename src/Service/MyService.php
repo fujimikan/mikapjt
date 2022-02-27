@@ -2,6 +2,7 @@
 namespace App\Service;
 
 
+use App\Entity\Message;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 
@@ -22,9 +23,9 @@ class MyService
         return $msgs[$res];
     }
 
-    public function __construct(string $entityType, EntityManagerInterface $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
-        $this->entityType = $entityType;
+        $this->entityType = Message::class;
         $this->manager = $manager;
     }
 
