@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23b530a0a4d3a88f09415ddbb344306a",
+    "content-hash": "e1500e51d3639e45cdf3f1bb30461d6c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -7159,16 +7159,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.14.13",
+            "version": "v2.15.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "66856cd0459df3dc97d32077a98454dc2a0ee75a"
+                "reference": "ab402673db8746cb3a4c46f3869d6253699f614a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/66856cd0459df3dc97d32077a98454dc2a0ee75a",
-                "reference": "66856cd0459df3dc97d32077a98454dc2a0ee75a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ab402673db8746cb3a4c46f3869d6253699f614a",
+                "reference": "ab402673db8746cb3a4c46f3869d6253699f614a",
                 "shasum": ""
             },
             "require": {
@@ -7184,7 +7184,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.14-dev"
+                    "dev-master": "2.15-dev"
                 }
             },
             "autoload": {
@@ -7223,7 +7223,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v2.14.13"
+                "source": "https://github.com/twigphp/Twig/tree/v2.15.3"
             },
             "funding": [
                 {
@@ -7235,7 +7235,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-06T06:45:17+00:00"
+            "time": "2022-09-28T08:40:08+00:00"
         },
         {
             "name": "webmozart/assert",
