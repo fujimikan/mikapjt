@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\Constraints as MyAssert;
@@ -11,34 +12,34 @@ use App\Validator\Constraints as MyAssert;
  * @UniqueEntity("username")
  * @MyAssert\UserChecker
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActivated;
+    private bool $isActivated;
 
     public function getId(): ?int
     {
@@ -92,7 +93,13 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-
+    
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+    
+    
     public function __construct()
     {
         $this->isActivated = true;
@@ -103,38 +110,20 @@ class User implements UserInterface, \Serializable
         return null;
     }
 
-    public function getRoles()
-    {
+    public function getRoles(): array {
         if ($this->username == 'admin') {
             return array('ROLE_ADMIN');
         } else {
             return array('ROLE_USER');
         }
     }
-
+    
     public function eraseCredentials()
     {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
-
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActivated,
-        ));
-    }
-
-    public function unserialize($serialized)
-    {
-        [
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActivated,
-            ] = $this->unserialize($serialized, array('allowed_classes'=>false));
-    }
+    
 
     public function __toString()
     {

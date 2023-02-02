@@ -31,8 +31,8 @@ class ItemlistController extends AbstractController
     public function main(Request $request, MyService $service, int $int=1)
     {
         return $this->render('itemlist/main.html.twig', [
-            'title'=>'Hello',
-            'number'=>1234500,
+            'title'=>'Hello.',
+            'number'=>123450011,
         ]);
     }
 
@@ -148,50 +148,5 @@ class ItemlistController extends AbstractController
                 'form'=>$form->createView(),
             ]);
         }
-    }
-}
-
-class FindForm
-{
-    private  $find;
-
-    public function getFind()
-    {
-        return $this->find;
-    }
-    public function setFind($find)
-    {
-        $this->find = $find;
-    }
-}
-
-class HelloForm
-{
-    private $name;
-    private $mail;
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this-> name = $name;
-    }
-
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-    }
-
-    public function __toString()
-    {
-        return '*** ' . $this->name . '[' . $this->mail . '] ***';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Entity\Message;
+use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,8 @@ class MessageController extends AbstractController
     /**
      * @Route("/message", name="message")
      */
-    public function index()
+    public function index(MessageRepository $repository)
     {
-        $repository = $this->getDoctrine()
-            ->getRepository(Message::class);
         $data = $repository->findAll();
         return $this->render('message/index.html.twig', [
             'title'=>'Mesaage',
