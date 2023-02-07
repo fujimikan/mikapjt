@@ -20,7 +20,7 @@ class ExpensesType extends AbstractType
             ->add('user_id', TantoType::class)
             ->add('reporting_date', DateTimeType::class,[
                 'label'=>'日付',
-                'format'=>'yyyy/MM/dd',
+                'input_format'=>'yyyy/MM/dd',
                 'widget'=>'single_text',
                 'attr' => ['class' => 'js-datepicker'],
             ])

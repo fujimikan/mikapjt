@@ -4,6 +4,10 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\Form\HelloType;
 use App\Form\PersonType;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use phpDocumentor\Reflection\Types\Integer;
@@ -37,13 +41,14 @@ class ItemlistController extends AbstractController
     }
 
 
-    /**
-     * @Route("/hello/{id}", name="hello")
-     */
-    public function index(Request $request, int $id=1, MyService $service)
+    #[Route('/hello/{id}', name: "hello", defaults: [ 'id' =>1 ])]
+    public function hello(Request $request, $id, MyService $service)
     {
+        /**
+         * @var $person Person
+         */
         $person = $service->getPerson($id);
-        $msg = $person == null ? 'no person.' : 'name:' . $person;
+        $msg = ($person == null) ? 'no person.' : 'name:' . $person->getId();
         return $this->render('itemlist/index.html.twig', [
             'title' => 'Hello',
             'message' => $msg,
@@ -60,10 +65,8 @@ class ItemlistController extends AbstractController
     }
 
 
-    /**
-     * @Route("/find/{id}", name="find")
-     */
-    public  function find(Request $request, Person $person)
+    #[Route('/find/{id}', name: "find")]
+    public  function find(Person $person, Request $request): Response
     {
         return $this->render('itemlist/find.html.twig',[
             'title'=>'Hello',
@@ -71,21 +74,18 @@ class ItemlistController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/create", name="create")
-     */
-    public function create(Request $request)
+    #[Route("/create", name: "create")]
+    public function create(Request $request, EntityManagerInterface $manager): RedirectResponse|Response
     {
         $person = new Person();
-        $form = $this->createFormBuilder(PersonType::class, $person);
+        $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
 
         if($request->getMethod()=='POST'){
             $person=$form->getData();
-            $manager=$this->getDoctrine()->getManager();
             $manager->persist($person);
             $manager->flush();
-            return $this->redirect('/hello');
+            return $this->redirect('/hello/'. $person->getId());
         } else {
             return $this->render('itemlist/create.html.twig',[
                 'title'=>'Hello',
@@ -98,7 +98,7 @@ class ItemlistController extends AbstractController
     /**
      * @route("/update/{id}", name="update")
      */
-    public function update(Request $request, Person $person)
+    public function update(Request $request, Person $person, EntityManagerInterface $manager)
     {
         $form = $this->createFormBuilder($person)
             ->add('name', TextType::class)
@@ -110,9 +110,8 @@ class ItemlistController extends AbstractController
         if ($request->getMethod()=='POST'){
             $form->handleRequest($request);
             $person=$form->getData();
-            $manager=$this->getDoctrine()->getManager();
             $manager->flush();
-            return $this->redirect('/hello');
+            return $this->redirect('/hello/'.$person->getId());
         } else {
             return $this->render('itemlist/create.html.twig',[
                 'title'=>'Hello',
@@ -125,7 +124,7 @@ class ItemlistController extends AbstractController
     /**
      * @Route("/delete/{id}", name="delete")
      */
-    public function delete(Request $request, Person $person)
+    public function delete(Request $request, Person $person, EntityManagerInterface $manager)
     {
         $form = $this->createFormBuilder($person)
             ->add('name', TextType::class)
@@ -137,7 +136,6 @@ class ItemlistController extends AbstractController
         if($request->getMethod()=='POST'){
             $form->handleRequest($request);
             $person=$form->getData();
-            $manager=$this->getDoctrine()->getManager();
             $manager->remove($person);
             $manager->flush();
             return $this->redirect('/hello');

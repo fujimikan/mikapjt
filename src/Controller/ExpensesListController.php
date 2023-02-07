@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Entity\TrnExpenses;
 use App\Form\ExpensesType;
 use App\Repository\TrnExpensesRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +17,8 @@ class ExpensesListController extends AbstractController
     /**
      * @Route("/expenses", name="expenses")
      */
-    public function index()
+    public function index(TrnExpensesRepository $repository)
     {
-        $repository = $this->getDoctrine()->getRepository(TrnExpenses::class);
         $data = $repository->findall();
         return $this->render('expenseslist/index.html.twig',[
             'title'=>'経費精算システム',
@@ -26,10 +27,14 @@ class ExpensesListController extends AbstractController
 
     }
 
-    /**
-     * @Route("/expenses/create/{id}", name="expenses/create")
-     */
-    public function create(int $id = 0, Request $request, ValidatorInterface $validator, TrnExpensesRepository $expensesRepository)
+    #[Route('/expenses/create/{id}', name:'expenses/create', defaults:["id"=> 0])]
+    public function create(
+        $id,
+        Request $request,
+        ValidatorInterface $validator,
+        TrnExpensesRepository $expensesRepository,
+        EntityManagerInterface $manager
+    )
     {
         if ($id == 0) {
             $expenses = new TrnExpenses();
@@ -43,7 +48,6 @@ class ExpensesListController extends AbstractController
             $expenses = $form->getData();
             $errors = $validator->validate($expenses);
             if (count($errors) == 0) {
-                $manager = $this->getDoctrine()->getManager();
                 $manager->persist($expenses);
                 $manager->flush();
                 return $this->redirect('/expenses');

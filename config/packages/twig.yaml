@@ -1,7 +1,5 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-    exception_controller: null
-
 
 when@test:
     twig:

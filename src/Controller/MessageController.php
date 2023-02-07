@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\Entity\Message;
 use App\Repository\MessageRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +37,11 @@ class MessageController extends AbstractController
     /**
      * @Route("/message/create", name="message/create")
      */
-    public function create(Request $request, ValidatorInterface $validator)
+    public function create(
+        Request $request,
+        ValidatorInterface $validator,
+        EntityManagerInterface $manager
+    )
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -45,7 +51,6 @@ class MessageController extends AbstractController
             $message=$form->getData();
             $errors=$validator->validate($message);
             if (count($errors) == 0) {
-                $manager=$this->getDoctrine()->getManager();
                 $manager->persist($message);
                 $manager->flush();
                 return $this->redirect('/message');
@@ -61,14 +66,10 @@ class MessageController extends AbstractController
            'form'=>$form->createView(),
         ]);
     }
-    /**
-     * @Route("/message/page/{page}", name="message/page")
-     */
-    public function page($page=1)
+    #[Route('/message/page/{page}', name:'message/page', defaults:['page'=>1])]
+    public function page($page, MessageRepository $repository)
     {
         $limit = 3;
-        $repository = $this->getDoctrine()
-            ->getRepository(Message::class);
         $paginator = $repository->getPage($page,$limit);
         $maxPages = ceil($paginator->count() / $limit);
         return $this->render('message/page.html.twig',[
